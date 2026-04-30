@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guided Meditation App</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600&display=swap">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            text-align: center;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guided Meditation App</h1>
+        <h2>Welcome to Your Relaxation Space</h2>
+        <p id="instructions">Press the button below to start your guided meditation.</p>
+        <button id="startMeditation">Start Meditation</button>
+        <audio id="meditationAudio" src="audio/meditation.mp3" preload="auto"></audio>
+        <script>
+            const startButton = document.getElementById('startMeditation');
+            const audio = document.getElementById('meditationAudio');
+
+            startButton.addEventListener('click', () => {
+                audio.play().catch(error => {
+                    console.error('Error playing audio:', error);
+                    alert('Please ensure your device is not muted.');
+                });
+            });
+
+            window.addEventListener('beforeunload', () => {
+                localStorage.setItem('audioTime', audio.currentTime);
+            });
+
+            window.addEventListener('load', () => {
+                const savedTime = localStorage.getItem('audioTime');
+                if (savedTime) {
+                    audio.currentTime = savedTime;
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
